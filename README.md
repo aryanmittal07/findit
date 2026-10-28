@@ -22,3 +22,9 @@ For a populated local preview, run `flask --app app seed-demo`. It adds four pub
 ## Verification
 
 Run `python -m pytest -q` from an environment with the requirements installed.
+
+## Deploy to Render
+
+This project includes `render.yaml` for a production deployment. Create a new Render Blueprint from the GitHub repository and choose the included configuration. It creates a paid web service with a 1 GB persistent disk at `/var/data`; both the SQLite database and uploaded photos are stored there, so they survive service restarts and deployments.
+
+Render creates a secure `SECRET_KEY` automatically. Do not use the local `instance/` folder or local administrator accounts as production data; create the first live administrator after the service is deployed with Render's shell.

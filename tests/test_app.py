@@ -50,6 +50,15 @@ def test_database_is_initialized(app):
     assert ("users",) in tables
 
 
+def test_configured_data_directory_holds_database_and_uploads(tmp_path, monkeypatch):
+    data_dir = tmp_path / "persistent-data"
+    monkeypatch.setenv("FINDIT_DATA_DIR", str(data_dir))
+    production_like_app = create_app({"TESTING": True, "SECRET_KEY": "test-secret"})
+    assert production_like_app.config["DATABASE"] == data_dir / "findit.sqlite3"
+    assert production_like_app.config["UPLOAD_FOLDER"] == data_dir / "uploads"
+    assert (data_dir / "findit.sqlite3").exists()
+
+
 def test_admin_dashboard_requires_login(client):
     response = client.get("/admin")
     assert response.status_code == 302

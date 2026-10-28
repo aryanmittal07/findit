@@ -17,17 +17,21 @@ BASE_DIR = Path(__file__).resolve().parent
 
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
+    data_dir = Path(os.environ.get("FINDIT_DATA_DIR", BASE_DIR / "instance"))
     app.config.from_mapping(
         SECRET_KEY=os.environ.get("SECRET_KEY"),
-        DATABASE=BASE_DIR / "instance" / "findit.sqlite3",
-        UPLOAD_FOLDER=BASE_DIR / "instance" / "uploads",
+        DATA_DIR=data_dir,
+        DATABASE=data_dir / "findit.sqlite3",
+        UPLOAD_FOLDER=data_dir / "uploads",
         MAX_CONTENT_LENGTH=4 * 1024 * 1024,
+        SESSION_COOKIE_HTTPONLY=True,
+        SESSION_COOKIE_SAMESITE="Lax",
     )
 
     if test_config:
         app.config.update(test_config)
 
-    Path(app.instance_path).mkdir(parents=True, exist_ok=True)
+    Path(app.config["DATA_DIR"]).mkdir(parents=True, exist_ok=True)
     Path(app.config["UPLOAD_FOLDER"]).mkdir(parents=True, exist_ok=True)
 
     with app.app_context():
