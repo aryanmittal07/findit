@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Browse items — FindIt{% endblock %}
+{% block content %}
+<section class="page-intro"><p class="eyebrow">THE NOTICEBOARD</p><h1>Browse reports.</h1></section>
+<form class="search-bar" method="get"><input name="q" value="{{ query }}" placeholder="Search by item, category, or place" aria-label="Search items"><select name="type" aria-label="Report type"><option value="">All reports</option><option value="lost" {% if selected_type == 'lost' %}selected{% endif %}>Lost</option><option value="found" {% if selected_type == 'found' %}selected{% endif %}></select><button>Search</button></form>
+{% if items %}<div class="item-grid results">{% for item in items %}{% include 'public/_item_card.html' %}{% endfor %}</div>{% else %}<section class="empty"><h2>Nothing matches yet.</h2><p>Try a broader search or make a report to help the community.</p><a class="button" href="{{ url_for('report_item') }}">Report an item</a></section>{% endif %}
+{% endblock %}

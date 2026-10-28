@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Report an item — FindIt{% endblock %}
+{% block content %}
+<section class="page-intro"><p class="eyebrow">MAKE A REPORT</p><h1>Let’s get it home.</h1><p class="lede">Reports are reviewed before they are published to the campus community.</p></section>
+<form class="card form-grid" method="post" enctype="multipart/form-data" novalidate>
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+  <fieldset><legend>What happened?</legend><div class="choice-row"><label><input type="radio" name="report_type" value="lost" {% if form.get('report_type', 'lost') == 'lost' %}checked{% endif %}> I lost it</label><label><input type="radio" name="report_type" value="found" {% if form.get('report_type') == 'found' %}checked{% endif %}> I found it</label></div></fieldset>
+  <label>Item title<input name="title" maxlength="120" required value="{{ form.get('title', '') }}" placeholder="e.g. Black wireless earbuds"></label>
+  <label>Category<select name="category" required><option value="">Choose one</option>{% for category in ['Electronics', 'ID & documents', 'Keys', 'Clothing', 'Books & stationery', 'Accessories', 'Other'] %}<option {% if form.get('category') == category %}selected{% endif %}>{{ category }}</option>{% endfor %}</select></label>
+  <label class="wide">Description<textarea name="description" maxlength="1000" required placeholder="Colour, distinctive details, or where it may have been left.">{{ form.get('description', '') }}</textarea></label>
+  <label>Location<input name="location" maxlength="160" required value="{{ form.get('location', '') }}" placeholder="e.g. Library, second floor"></label>
+  <label>Date<input name="event_date" type="date" required value="{{ form.get('event_date', '') }}"></label>
+  <label>Your name<input name="contact_name" maxlength="100" required value="{{ form.get('contact_name', '') }}"></label>
+  <label>Email or phone<input name="contact_detail" maxlength="160" required value="{{ form.get('contact_detail', '') }}" placeholder="Used only for a genuine match"></label>
+  <label class="wide">Photo <span>Optional · PNG, JPEG, GIF or WebP · up to 4 MB</span><input name="photo" type="file" accept="image/png,image/jpeg,image/gif,image/webp"></label>
+  <button class="wide" type="submit">Send for review</button>
+</form>
+{% endblock %}

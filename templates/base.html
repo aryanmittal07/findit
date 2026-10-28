@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}FindIt{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/site.css') }}">
+  </head>
+  <body>
+    <div class="announcement">A calmer way to find your way back <span>✦</span> Built for your campus</div>
+    <header class="site-header">
+      <a class="brand" href="{{ url_for('home') }}">Find<span>It</span></a>
+      <nav aria-label="Main navigation">
+        <a href="{{ url_for('item_list') }}">Explore</a>
+        <a class="nav-action" href="{{ url_for('report_item') }}">Report an item</a>
+        {% if session.user_id %}<a href="{{ url_for('my_activity') }}">My activity</a><form class="inline-form" method="post" action="{{ url_for('logout') }}"><input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"><button class="link-button">Sign out</button></form>{% else %}<a href="{{ url_for('login') }}">Sign in</a>{% endif %}
+      </nav>
+    </header>
+    <main class="shell">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}<p class="notice {{ category }}" role="status">{{ message }}</p>{% endfor %}
+      {% endwith %}
+      {% block content %}{% endblock %}
+    </main>
+  </body>
+</html>

@@ -1,0 +1,7 @@
+<article class="item-card">
+  {% if item.photo_filename and item.photo_status == 'approved' %}<img class="item-photo" src="{{ url_for('item_photo', item_id=item.id) }}" alt="Photo of {{ item.title }}">{% endif %}
+  <p class="badge {{ item.report_type }}">{{ item.report_type }}</p>
+  <h3><a href="{{ url_for('item_detail', item_id=item.id) }}">{{ item.title }}</a></h3>
+  <p>{{ item.category }} · {{ item.location }}</p>
+  <p class="muted">{{ item.event_date }}</p>
+</article>

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}FindIt — College Lost & Found{% endblock %}
+{% block content %}
+<section class="hero hero-home">
+  <div class="hero-copy"><p class="eyebrow">CAMPUS LOST & FOUND · EST. 2026</p><h1>Small things.<br><em>Big relief.</em></h1><p class="lede">A considered space for your campus community to reconnect with what was misplaced.</p><div class="hero-actions"><a class="button" href="{{ url_for('item_list') }}">Browse the board <span>↗</span></a><a class="text-link" href="{{ url_for('report_item') }}">Report an item <span>→</span></a></div><div class="trust-row"><span>✓ Private claims</span><span>✓ Admin reviewed</span><span>✓ Made for campus</span></div></div>
+  <div class="hero-art" aria-hidden="true"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="found-object"><div class="object-tag">FOUND<br><b>17</b></div><div class="object-ring"></div><div class="object-shine"></div></div><p class="art-caption">REUNITING WHAT<br>MATTERS MOST</p></div>
+</section>
+<section class="latest" aria-labelledby="recent-items">
+  <div class="section-heading"><p class="eyebrow">RECENTLY REPORTED</p><h2 id="recent-items">Worth a closer look</h2></div>
+  {% if latest_items %}<div class="item-grid">{% for item in latest_items %}{% include 'public/_item_card.html' %}{% endfor %}</div>
+  {% else %}<p class="empty">No approved listings yet. The first helpful find starts here.</p>{% endif %}
+</section>
+{% endblock %}
